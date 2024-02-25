@@ -1,0 +1,6 @@
+@Ebenezer_HostAddress = http://localhost:5053
+
+GET {{Ebenezer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
