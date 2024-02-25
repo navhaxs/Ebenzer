@@ -67,32 +67,32 @@ public class PowerPointDisplayMonitorModule
         return displays.Select(d => ToDisplay(d)).ToList();
     }
 
-    static Display GetDisplay(string target_match_id)
+    static Display GetDisplay(string id)
     {
         // Get displays
         IEnumerable<Display> displays = Display.GetDisplays();
 
         // Attempt to match
-        return displays.Where(d => d.ToString().Contains(target_match_id)).First();
+        return displays.Where(d => d.DisplayName == id).First();
     }
     
     /*
      * Logic for writing PowerPoint display configuration
      */
-    static internal bool ApplyConfig(string target_match)
+    static internal bool SetConfig(string id)
     {
-        Display m = GetDisplay(target_match);
+        // Display m = GetDisplay(id);
 
         // Write it to powerpoint's registry
         RegistryKey key = GetPowerPointPath();
 
         var oldValue = key.GetValue("DisplayMonitor", null);
-        if (oldValue != null && oldValue.ToString() == m.DisplayName)
+        if (oldValue != null && oldValue.ToString() == id)
         {
             return false;
         }
 
-        key.SetValue("DisplayMonitor", m.DisplayName);
+        key.SetValue("DisplayMonitor", id);
 
         return true;
     }

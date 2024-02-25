@@ -11,11 +11,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseHttpsRedirection();
 
@@ -44,6 +44,13 @@ app.MapGet("getpowerpointdisplaymonitor", () =>
         return PowerPointDisplayMonitorModule.GetConfig();
     })
     .WithName("GetPowerPointDisplayMonitor")
+    .WithOpenApi();
+
+app.MapPost("setpowerpointdisplaymonitor", (string id) =>
+    {
+        return PowerPointDisplayMonitorModule.SetConfig(id);
+    })
+    .WithName("SetPowerPointDisplayMonitor")
     .WithOpenApi();
 
 app.MapGet("enumeratedisplaydevices", () =>
