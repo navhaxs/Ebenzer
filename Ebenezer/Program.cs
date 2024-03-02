@@ -1,4 +1,3 @@
-using CoreAudio;
 using Ebenezer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,26 +17,6 @@ var app = builder.Build();
 // }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
 
 app.MapGet("getpowerpointdisplaymonitor", () =>
     {
@@ -81,17 +60,11 @@ app.MapPost("setdefaultaudiodevice", (string id) =>
     .WithName("SetDefaultAudioDevice")
     .WithOpenApi();
 
-app.MapPost("launchprogram", (string command, bool killExistingApp) =>
+app.MapPost("launchprogram", (string command, bool killExistingApp = false, string? parameters = null) =>
     {
-        RunCommandModule.LaunchProgram(command, killExistingApp);
+        RunCommandModule.LaunchProgram(command, killExistingApp, parameters);
     })
     .WithName("LaunchProgram")
     .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-

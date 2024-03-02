@@ -53,11 +53,8 @@ public class PowerPointDisplayMonitorModule
 
     static internal DisplayDevice ToDisplay(Display display)
     {
-        return new DisplayDevice()
-        {
-            ID = display.DisplayName, DeviceFriendlyName = display.DeviceName,
-            Position = display.CurrentSetting.Position, Resolution = display.CurrentSetting.Resolution
-        };
+        return new DisplayDevice(display.DisplayName, display.DeviceName, display.CurrentSetting.Position,
+            display.CurrentSetting.Resolution);
     }
 
     static internal List<DisplayDevice> GetAllDisplayDevices()
@@ -96,13 +93,6 @@ public class PowerPointDisplayMonitorModule
 
         return true;
     }
-    
-    public class DisplayDevice
-    {
-        public string ID { get; set; }
-        public string DeviceFriendlyName { get; set; }
-        
-        public Point Position { get; set; }
-        public Size Resolution { get; set; }
-    }
+
+    public record DisplayDevice(string ID, string DeviceFriendlyName, Point Position, Size Resolution);
 }
