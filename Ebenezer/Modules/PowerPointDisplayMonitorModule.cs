@@ -64,13 +64,13 @@ public class PowerPointDisplayMonitorModule
         return displays.Select(d => ToDisplay(d)).ToList();
     }
 
-    static Display GetDisplay(string id)
+    static Display? GetDisplay(string id)
     {
         // Get displays
         IEnumerable<Display> displays = Display.GetDisplays();
 
         // Attempt to match
-        return displays.Where(d => d.DisplayName == id).First();
+        return displays.FirstOrDefault(d => d.DisplayName == id);
     }
     
     /*

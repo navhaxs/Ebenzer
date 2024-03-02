@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddWindowsService();
+// builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
 
@@ -59,12 +61,18 @@ app.MapPost("setdefaultaudiodevice", (string id) =>
     })
     .WithName("SetDefaultAudioDevice")
     .WithOpenApi();
-
-app.MapPost("launchprogram", (string command, bool killExistingApp = false, string? parameters = null) =>
+//
+// app.MapPost("launchprogram", (string command, bool killExistingApp = false, string? parameters = null) =>
+//     {
+//         RunCommandModule.LaunchProgram(command, killExistingApp, parameters);
+//     })
+//     .WithName("LaunchProgram")
+//     .WithOpenApi();
+app.MapPost("restartscanconverter", () =>
     {
-        RunCommandModule.LaunchProgram(command, killExistingApp, parameters);
+        RunCommandModule.LaunchProgram("C:\\Program Files\\NDI\\NDI 5 Tools\\Screen Capture\\Application.Network.ScanConverterHX.x64.exe", true);
     })
-    .WithName("LaunchProgram")
+    .WithName("Restart NDI Scan Converter HX")
     .WithOpenApi();
 
 app.Run();

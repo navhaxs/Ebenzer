@@ -4,11 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="CoreAudio" Version="1.37.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
         <PackageReference Include="NAudio" Version="2.2.1" />
         <PackageReference Include="NAudio.Core" Version="2.2.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
