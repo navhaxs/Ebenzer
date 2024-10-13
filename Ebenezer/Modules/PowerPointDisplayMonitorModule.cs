@@ -51,8 +51,12 @@ public class PowerPointDisplayMonitorModule
         return null;
     }
 
-    static internal DisplayDevice ToDisplay(Display display)
+    static internal DisplayDevice? ToDisplay(Display? display)
     {
+        if (display == null)
+        {
+            return null;
+        }
         return new DisplayDevice(display.DisplayName, display.DeviceName, display.CurrentSetting.Position,
             display.CurrentSetting.Resolution);
     }

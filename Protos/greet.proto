@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (google.protobuf.Empty);
+  rpc Abort (HelloRequest) returns (google.protobuf.Empty);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}

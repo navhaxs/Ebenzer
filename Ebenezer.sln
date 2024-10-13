@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebenezer", "Ebenezer\Ebenezer.csproj", "{C8F79C93-9239-4421-A377-33F82A24A21A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebenezer.Application", "Ebenezer.Application\Ebenezer.Application.csproj", "{5B7EBBED-34FF-43F4-9AF2-420626A0D3EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebenezer.Data", "Ebenezer.Data\Ebenezer.Data.csproj", "{4137B6BB-3EC8-4CED-A25A-8233794D6AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{C8F79C93-9239-4421-A377-33F82A24A21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8F79C93-9239-4421-A377-33F82A24A21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8F79C93-9239-4421-A377-33F82A24A21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B7EBBED-34FF-43F4-9AF2-420626A0D3EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B7EBBED-34FF-43F4-9AF2-420626A0D3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B7EBBED-34FF-43F4-9AF2-420626A0D3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B7EBBED-34FF-43F4-9AF2-420626A0D3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4137B6BB-3EC8-4CED-A25A-8233794D6AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4137B6BB-3EC8-4CED-A25A-8233794D6AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4137B6BB-3EC8-4CED-A25A-8233794D6AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4137B6BB-3EC8-4CED-A25A-8233794D6AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

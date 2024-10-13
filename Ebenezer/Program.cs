@@ -14,52 +14,40 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        app.UseSwagger();
+        app.UseSwaggerUI();
 // }
 
 app.UseHttpsRedirection();
 
-app.MapGet("getpowerpointdisplaymonitor", () =>
-    {
-        return PowerPointDisplayMonitorModule.GetConfig();
-    })
+app.MapGet("getpowerpointdisplaymonitor", PowerPointDisplayMonitorModule.GetConfig)
     .WithName("GetPowerPointDisplayMonitor")
+    .WithTags("PowerPoint")
     .WithOpenApi();
 
-app.MapPost("setpowerpointdisplaymonitor", (string id) =>
-    {
-        return PowerPointDisplayMonitorModule.SetConfig(id);
-    })
+app.MapPost("setpowerpointdisplaymonitor", PowerPointDisplayMonitorModule.SetConfig)
     .WithName("SetPowerPointDisplayMonitor")
+    .WithTags("PowerPoint")
     .WithOpenApi();
 
-app.MapGet("enumeratedisplaydevices", () =>
-    {
-        return PowerPointDisplayMonitorModule.GetAllDisplayDevices();
-    })
+app.MapGet("enumeratedisplaydevices", PowerPointDisplayMonitorModule.GetAllDisplayDevices)
     .WithName("EnumerateDisplayDevices")
+    .WithTags("Display")
     .WithOpenApi();
 
-app.MapGet("defaultaudiodevice", () =>
-    {
-        return AudioDeviceModule.GetDefaultAudioDevice();
-    })
+app.MapGet("defaultaudiodevice", AudioDeviceModule.GetDefaultAudioDevice)
     .WithName("GetDefaultAudioDevice")
+    .WithTags("Audio")
     .WithOpenApi();
 
-app.MapGet("enumerateaudiodevices", () =>
-    {
-        return AudioDeviceModule.GetAllAudioDevices();
-    })
+app.MapGet("enumerateaudiodevices", AudioDeviceModule.GetAllAudioDevices)
     .WithName("GetAllAudioDevices")
+    .WithTags("Audio")
     .WithOpenApi();
 
-app.MapPost("setdefaultaudiodevice", (string id) =>
-    {
-        AudioDeviceModule.SetDefaultAudioDevice(id);
-    })
+app.MapPost("setdefaultaudiodevice", AudioDeviceModule.SetDefaultAudioDevice)
     .WithName("SetDefaultAudioDevice")
+    .WithTags("Audio")
     .WithOpenApi();
 //
 // app.MapPost("launchprogram", (string command, bool killExistingApp = false, string? parameters = null) =>
@@ -68,11 +56,44 @@ app.MapPost("setdefaultaudiodevice", (string id) =>
 //     })
 //     .WithName("LaunchProgram")
 //     .WithOpenApi();
-app.MapPost("restartscanconverter", () =>
+app.MapPost("restartscanconverterhx", async () =>
     {
-        RunCommandModule.LaunchProgram("C:\\Program Files\\NDI\\NDI 5 Tools\\Screen Capture\\Application.Network.ScanConverterHX.x64.exe", true);
+        await RunCommandModule.KillProgram("Application.Network.ScanConverterHX.x64.exe");
+        await RunCommandModule.KillProgram("Application.Network.ScanConverter2.x64.exe");
+        RunCommandModule.LaunchProgram(
+            "C:\\Program Files\\NDI\\NDI 6 Tools\\Screen Capture\\Application.Network.ScanConverterHX.x64.exe",
+            true);
     })
     .WithName("Restart NDI Scan Converter HX")
+    .WithTags("NDI Scan Converter")
+    .WithOpenApi();
+
+app.MapPost("restartscanconverter", async () =>
+    {
+        await RunCommandModule.KillProgram("Application.Network.ScanConverterHX.x64.exe");
+        await RunCommandModule.KillProgram("Application.Network.ScanConverter2.x64.exe");
+        RunCommandModule.LaunchProgram(
+            "C:\\Program Files\\NDI\\NDI 6 Tools\\Screen Capture\\Application.Network.ScanConverter2.x64.exe",
+            true);
+    })
+    .WithName("Restart NDI Scan Converter")
+    .WithTags("NDI Scan Converter")
+    .WithOpenApi();
+
+app.MapGet("enumeratenetworkinginterfaces",
+        NetworkingInterfacesModule.ListAllNetworkingInterfaces)
+    .WithName("GetNetworkingInterfaces")
+    .WithTags("Network")
+    .WithOpenApi();
+
+app.MapPost("requestshutdown", PowerModule.RequestShutdown)
+    .WithName("RequestShutdown")
+    .WithTags("Power")
+    .WithOpenApi();
+
+app.MapDelete("cancelshutdown", PowerModule.CancelShutdown)
+    .WithName("CancelShutdown")
+    .WithTags("Power")
     .WithOpenApi();
 
 app.Run();

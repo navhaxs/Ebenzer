@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:application="clr-namespace:Ebenezer.Application"
+        mc:Ignorable="d"
+        Width="900"
+        Height="400"
+        x:Class="Ebenezer.Application.MainWindow"
+        Title="Ebenezer.Application"
+        Background="#e6d0600f"
+        Topmost="{Binding !IsPaused}"
+        x:DataType="application:CountdownViewModel"
+        SystemDecorations="None">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Right">
+            <Button VerticalAlignment="Top" Margin="16" Click="Button_OnClick" IsCancel="True"
+                    IsDefault="True">
+                <Grid>
+                    <TextBlock
+                        Margin="30"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontSize="40"
+                        TextWrapping="Wrap">
+                        esc
+                    </TextBlock>
+                </Grid>
+            </Button>
+        </StackPanel>
+        <TextBlock
+            Margin="30"
+            FontSize="44" TextWrapping="Wrap">
+            This computer will shut down in <Run Text="{Binding Countdown}" /> seconds
+            <Run Text="{Binding PauseText}" />
+        </TextBlock>
+
+    </DockPanel>
+</Window>

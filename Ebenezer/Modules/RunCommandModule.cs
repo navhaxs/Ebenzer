@@ -4,23 +4,35 @@ namespace Ebenezer;
 
 public static class RunCommandModule
 {
-    public static async void LaunchProgram(string programFullPath, bool killExistingApp = false, string? arguments = null)
+    public static async void LaunchProgram(string programFullPath, bool killExistingApp = false,
+        string? arguments = null)
     {
-        if (killExistingApp)
+        try
         {
-            var processName = Path.GetFileName(programFullPath);
-            var proc = Process.Start("taskkill", $"/F /IM {processName}");
-            await proc.WaitForExitAsync();
-            await Task.Delay(1000);
-        }
+            if (killExistingApp)
+            {
+                await KillProgram(programFullPath);
+            }
 
-        if (arguments != null)
-        {
-            Process.Start(programFullPath, arguments); 
+            if (arguments != null)
+            {
+                Process.Start(programFullPath, arguments);
+            }
+            else
+            {
+                Process.Start(programFullPath);
+            }
         }
-        else
+        catch (Exception e)
         {
-            Process.Start(programFullPath); 
+            Console.WriteLine(e);
         }
+    }
+
+    public static async Task KillProgram(string processName)
+    {
+        var proc = Process.Start("taskkill", $"/F /IM {processName}");
+        await proc.WaitForExitAsync();
+        await Task.Delay(1000);
     }
 }
