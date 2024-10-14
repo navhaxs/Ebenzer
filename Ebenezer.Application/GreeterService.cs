@@ -40,6 +40,8 @@ public class GreeterService : Greeter.GreeterBase
                 {
                     FileName = "shutdown.exe",
                     Arguments= $"/a",
+                    CreateNoWindow = true,
+                    UseShellExecute = false
                 }
             };
 

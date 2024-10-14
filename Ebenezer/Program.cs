@@ -1,15 +1,38 @@
+using System.Net;
 using Ebenezer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Listen(IPAddress.Any, 5053, listenOptions =>
+    {
+        listenOptions.UseHttps(httpsOptions =>
+        {
+            httpsOptions.ServerCertificate = SelfSignedCertificate.GenerateSelfSignedCertificate();
+        });
+    });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddWindowsService();
-// builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
+
+// Add this block to redirect HTTP to HTTPS
+app.Use(async (context, next) =>
+{
+    if (context.Request.Scheme != "https")
+    {
+        var httpsUrl = $"https://{context.Request.Host}{context.Request.Path}{context.Request.QueryString}";
+        context.Response.Redirect(httpsUrl, permanent: true);
+        return;
+    }
+
+    await next();
+});
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())

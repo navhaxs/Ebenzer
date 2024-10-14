@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -17,13 +18,19 @@ public partial class App : Avalonia.Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-
             if (!Design.IsDesignMode)
             {
-                var server = new NamedPipeServer(Constants.PipeName);
-                Greeter.BindService(server.ServiceBinder, new GreeterService(desktop));
-                server.Start();
+                if (Debugger.IsAttached)
+                {
+                    desktop.MainWindow = new MainWindow();
+                }
+                else
+                {
+                    desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                    var server = new NamedPipeServer(Constants.PipeName);
+                    Greeter.BindService(server.ServiceBinder, new GreeterService(desktop));
+                    server.Start();
+                }
             }
         }
 

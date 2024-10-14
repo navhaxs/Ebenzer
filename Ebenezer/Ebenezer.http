@@ -1,4 +1,4 @@
-@Ebenezer_HostAddress = http://localhost:5053
+@Ebenezer_HostAddress = https://localhost:5053
 
 GET {{Ebenezer_HostAddress}}/weatherforecast/
 Accept: application/json

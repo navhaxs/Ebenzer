@@ -1,32 +1,33 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Timers;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Threading;
 
 namespace Ebenezer.Application;
 
 public partial class MainWindow : Window
 {
+    private CountdownViewModel vm;
+    
     public MainWindow()
     {
         InitializeComponent();
 
-        DataContext = new CountdownViewModel();
-        
+        DataContext = vm = new CountdownViewModel();;
+
         if (Design.IsDesignMode)
             return;
 
-        this.Position = new PixelPoint(0, 0);
-        this.Width = this.Screens.Primary.WorkingArea.Width / this.Screens.Primary.Scaling;
+        vm.OnCloseDialog += (_, _) => { Dispatcher.UIThread.InvokeAsync(() => Close()); };
 
-       
+        Activated += ((sender, args) =>
+        {
+            if (Screens.Primary is not null)
+            {
+                Position = Screens.Primary.Bounds.Position;
+                Width = Screens.Primary.WorkingArea.Width / Screens.Primary.Scaling;
+            }
+        });
     }
 
     private void Button_OnClick(object? sender, RoutedEventArgs e) => Close();
-
-
 }

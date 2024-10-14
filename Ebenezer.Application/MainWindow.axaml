@@ -32,7 +32,6 @@
             Margin="30"
             FontSize="44" TextWrapping="Wrap">
             This computer will shut down in <Run Text="{Binding Countdown}" /> seconds
-            <Run Text="{Binding PauseText}" />
         </TextBlock>
 
     </DockPanel>
