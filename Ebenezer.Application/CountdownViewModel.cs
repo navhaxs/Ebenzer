@@ -11,6 +11,8 @@ namespace Ebenezer.Application;
 public class CountdownViewModel : ReactiveObject
 {
     public event EventHandler OnCloseDialog;
+
+    private Timer? aTimer;
     
     private int _countdown = 30;
 
@@ -31,6 +33,8 @@ public class CountdownViewModel : ReactiveObject
     private readonly ObservableAsPropertyHelper<string> _pauseText;
     public string PauseText => _pauseText.Value;
 
+    private IDisposable? _subscription;
+
     public CountdownViewModel()
     {
         _pauseText = this.WhenAnyValue(vm => vm.IsPaused, (bool b) => b ? "..." : "")
@@ -39,7 +43,7 @@ public class CountdownViewModel : ReactiveObject
         if (Design.IsDesignMode)
             return;
 
-        Observable.Interval(TimeSpan.FromSeconds(1), RxApp.TaskpoolScheduler)
+        var interval = Observable.Interval(TimeSpan.FromSeconds(1), RxApp.TaskpoolScheduler)
             .Subscribe(_ =>
             {
                 if (Countdown > 0 && !IsPaused)
@@ -70,7 +74,9 @@ public class CountdownViewModel : ReactiveObject
                 }
             });
 
-        var aTimer = new Timer();
+        _subscription = interval;
+
+        aTimer = new Timer();
         aTimer.Elapsed += (object source, ElapsedEventArgs e) =>
         {
             uint x = IdleTimeDetect.GetIdleTime();
@@ -89,8 +95,14 @@ public class CountdownViewModel : ReactiveObject
                 IsPaused = true;
             }
         };
-
         aTimer.Interval = 100; // 100ms
         aTimer.Enabled = true;
+    }
+    
+    public void CancelCountdown()
+    {
+        aTimer?.Stop();
+        _subscription?.Dispose();
+        _subscription = null;
     }
 }
